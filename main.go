@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 var (
@@ -29,15 +30,17 @@ func targetFiles() []string {
 
 	if recursive {
 		var dirs []string
+		relative := false
+		currentDir, err := os.Getwd()
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		if flag.NArg() > 1 {
 			dirs = flag.Args()[1:]
 		} else {
-			d, err := os.Getwd()
-			if err != nil {
-				log.Fatal(err)
-			}
-			dirs = append(dirs, d)
+			relative = true
+			dirs = append(dirs, currentDir)
 		}
 
 		for _, d := range dirs {
@@ -48,8 +51,13 @@ func targetFiles() []string {
 				}
 
 				if !info.IsDir() {
-					fullpath := path
-					filepaths = append(filepaths, fullpath)
+					if relative {
+						p := strings.TrimPrefix(path, currentDir)
+						p = p[1:]
+						filepaths = append(filepaths, p)
+					} else {
+						filepaths = append(filepaths, path)
+					}
 				}
 
 				return nil
