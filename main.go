@@ -25,6 +25,8 @@ var ooFilePatterns = []OoFile{
 	OoFile{Ext: ".pptx", TextFilePattern: `ppt/slides/slide[0-9]+\.xml`, Re: pptxRe},
 }
 
+var stderrLog = log.New(os.Stderr, "", 0)
+
 func targetFiles() []string {
 	var filepaths []string
 
@@ -90,7 +92,7 @@ func main() {
 			if op.Ext == filepath.Ext(fp) {
 				matchedStrings, err := op.Match(fp, pattern, fileoonly)
 				if err != nil {
-					log.Fatal(err)
+					stderrLog.Println(err)
 				}
 
 				if matchedStrings != nil {
