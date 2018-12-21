@@ -7,6 +7,10 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
+	"strings"
+	"syscall"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 var (
@@ -63,6 +67,31 @@ func targetFiles(paths []string) []string {
 	return filepaths
 }
 
+func isTerminal() bool {
+	return terminal.IsTerminal(int(syscall.Stdout))
+}
+
+func supportTerminalColor() bool {
+	return terminal.IsTerminal(int(syscall.Stdout)) && runtime.GOOS != "windows"
+}
+
+func formatFileName(s string) (string) {
+	if supportTerminalColor() {
+		return "\x1b[36m"+s+"\x1b[0m";
+	} else {
+		return s
+	}
+}
+
+func formatMatchText(matchstring, pattern string) string {
+	if supportTerminalColor() {
+		return strings.Replace(matchstring, string(pattern), "\x1b[31m"+string(pattern)+"\x1b[0m", -1)
+	} else {
+		return matchstring
+	}
+}
+
+
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
@@ -76,11 +105,7 @@ func main() {
 	if flag.NArg() > 1 {
 		paths = flag.Args()[1:]
 	} else {
-		cur, err := os.Getwd()
-		if err != nil {
-			log.Fatal(err)
-		}
-		paths = []string{cur}
+		paths = []string{"./"}
 	}
 
 	var filepaths = targetFiles(paths)
@@ -93,14 +118,23 @@ func main() {
 					stderrLog.Println(err)
 				}
 
-				fp = strings.Replace(fp, string(fp), "\x1b[36m"+string(fp)+"\x1b[0m", -1)
+				filename := formatFileName(fp)
+
 				if matchedStrings != nil {
 					if fileoonly {
-						fmt.Printf("%v\n", fp)
+						fmt.Println(filename)
 					} else {
-						for _, s := range matchedStrings {
-							s = strings.Replace(s, string(pattern), "\x1b[31m"+string(pattern)+"\x1b[0m", -1)
-							fmt.Printf("%v: %v\n", fp, s)
+						if isTerminal() {
+							fmt.Printf(filename)
+							for _, s := range matchedStrings {
+								s1 := formatMatchText(s, string(pattern))
+								fmt.Printf("\t%v\n", s1)
+							}
+							fmt.Println()
+						} else {
+							for _, s := range matchedStrings {
+								fmt.Printf("%v: %v\n", fp, s)
+							}
 						}
 					}
 				}
