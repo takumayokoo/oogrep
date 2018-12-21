@@ -14,11 +14,10 @@ Support follows.
 
 ## Usage
 
-	oogrep [OPTIONS] PATTERN [FILES...]
+	oogrep [OPTIONS] PATTERN [PATH ...]
 
 ## Options
 
-	-r:	Read all files under each directory, recursively,
 	-l: Suppress normal output; instead print the name of each input file.
 
 ## License
