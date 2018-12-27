@@ -21,6 +21,7 @@ var pptxRe = regexp.MustCompile(`(?U)<a:t>(.*)<\/a:t>`)
 
 var ooFilePatterns = []OoFile{
 	OoFile{Ext: ".docx", TextFilePattern: `word/document\.xml`, Re: docxRe},
+	OoFile{Ext: ".docm", TextFilePattern: `word/document\.xml`, Re: docxRe},
 	OoFile{Ext: ".xlsx", TextFilePattern: `xl/sharedStrings\.xml`, Re: xlsxRe},
 	OoFile{Ext: ".xlsm", TextFilePattern: `xl/sharedStrings\.xml`, Re: xlsxRe},
 	OoFile{Ext: ".pptx", TextFilePattern: `ppt/slides/slide[0-9]+\.xml`, Re: pptxRe},
@@ -96,11 +97,13 @@ func main() {
 					stderrLog.Println(err)
 				}
 
+				fp = strings.Replace(fp, string(fp), "\x1b[36m"+string(fp)+"\x1b[0m", -1)
 				if matchedStrings != nil {
 					if fileoonly {
 						fmt.Printf("%v\n", fp)
 					} else {
 						for _, s := range matchedStrings {
+							s = strings.Replace(s, string(pattern), "\x1b[31m"+string(pattern)+"\x1b[0m", -1)
 							fmt.Printf("%v: %v\n", fp, s)
 						}
 					}
