@@ -21,6 +21,7 @@ var pptxRe = regexp.MustCompile(`(?U)<a:t>(.*)<\/a:t>`)
 
 var ooFilePatterns = []OoFile{
 	OoFile{Ext: ".docx", TextFilePattern: `word/document\.xml`, Re: docxRe},
+	OoFile{Ext: ".docm", TextFilePattern: `word/document\.xml`, Re: docxRe},
 	OoFile{Ext: ".xlsx", TextFilePattern: `xl/sharedStrings\.xml`, Re: xlsxRe},
 	OoFile{Ext: ".xlsm", TextFilePattern: `xl/sharedStrings\.xml`, Re: xlsxRe},
 	OoFile{Ext: ".pptx", TextFilePattern: `ppt/slides/slide[0-9]+\.xml`, Re: pptxRe},
