@@ -77,7 +77,7 @@ func supportTerminalColor() bool {
 
 func formatFileName(s string) (string) {
 	if supportTerminalColor() {
-		return "\x1b[36m"+s+"\x1b[0m";
+		return "\x1b[36m"+s+"\x1b[0m"
 	} else {
 		return s
 	}
@@ -125,7 +125,7 @@ func main() {
 						fmt.Println(filename)
 					} else {
 						if isTerminal() {
-							fmt.Printf(filename)
+							fmt.Println(filename)
 							for _, s := range matchedStrings {
 								s1 := formatMatchText(s, string(pattern))
 								fmt.Printf("\t%v\n", s1)
