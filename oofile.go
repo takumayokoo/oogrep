@@ -52,6 +52,9 @@ func readFilesFromZip(f *zip.ReadCloser, textFilePattern string) ([]byte, error)
 
 func (f *OoFile) Match(filepath string, pattern []byte, onlyfirst bool) ([]string, error) {
 	z, err := zip.OpenReader(filepath)
+	if err == zip.ErrFormat {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, fmt.Errorf("%v: %v", filepath, err)
 	}
