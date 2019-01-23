@@ -24,6 +24,7 @@ var ooFilePatterns = []OoFile{
 	OoFile{Ext: ".xlsx", TextFilePattern: `xl/sharedStrings\.xml`, Re: xlsxRe},
 	OoFile{Ext: ".xlsm", TextFilePattern: `xl/sharedStrings\.xml`, Re: xlsxRe},
 	OoFile{Ext: ".pptx", TextFilePattern: `ppt/slides/slide[0-9]+\.xml`, Re: pptxRe},
+	OoFile{Ext: ".pptm", TextFilePattern: `ppt/slides/slide[0-9]+\.xml`, Re: pptxRe},
 }
 
 var stderrLog = log.New(os.Stderr, "", 0)
