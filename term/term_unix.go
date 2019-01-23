@@ -1,16 +1,16 @@
 // +build !windows
 
-package main
+package term
 
 import (
-	"syscall"
 	"golang.org/x/crypto/ssh/terminal"
+	"syscall"
 )
 
-func isTerminal() bool {
+func IsTerminal() bool {
 	return terminal.IsTerminal(syscall.Stdout)
 }
 
-func supportTerminalColor() bool {
+func SupportTerminalColor() bool {
 	return true
 }

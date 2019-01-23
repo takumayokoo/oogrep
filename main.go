@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/takumayokoo/oogrep/term"
 	"log"
 	"os"
 	"path/filepath"
@@ -92,7 +93,7 @@ func main() {
 					if fileoonly {
 						PrintFileNameLine(fp)
 					} else {
-						if isTerminal() {
+						if term.IsTerminal() {
 							PrintFileNameLine(fp)
 							PrintMatchLine(fp, matchedStrings, pattern)
 						} else {
