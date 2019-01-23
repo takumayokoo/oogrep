@@ -4,13 +4,15 @@
 
 Support follows.
 * .docx
+* .docm
 * .xlsx
+* .xlsm
 * .pptx
+* .pptm
 
-## Getting Started
+## Installation from this repository
 
-    go get github.com/takumayokoo/oogrep
-    go install github.com/takumayokoo/oogrep
+[Download](https://github.com/takumayokoo/oogrep/releases)
 
 ## Usage
 
